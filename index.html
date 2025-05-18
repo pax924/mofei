@@ -118,9 +118,9 @@
       background: #ff69b4;
       position: absolute;
       top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
     }
+    .candle.left { left: 35%; }
+    .candle.right { left: 65%; }
     .flame {
       width: 10px;
       height: 10px;
@@ -154,6 +154,38 @@
 <body>
   <audio id="birthdayAudio" src="birthday_song.mp3" autoplay loop></audio>
 
+  <div class="page active" id="page2">
+    <h1>是谁今天过生日呢？🎉</h1>
+    <button class="next-btn" onclick="nextPage()">下一页</button>
+  </div>
+
+  <div class="page" id="page3">
+    <h1>原来是最最最漂亮美丽可爱、最最最善良的莫菲宝宝生日🎂💖</h1>
+    <button class="next-btn" onclick="nextPage()">继续</button>
+  </div>
+
+  <div class="page" id="page4">
+    <h1>祝你新的一年全部顺利，每一天都被爱包围✨</h1>
+    <button class="next-btn" onclick="nextPage()">吹灭蜡烛</button>
+  </div>
+
+  <div class="page" id="page5">
+    <h1>🎂 为莫菲准备的蛋糕 🎂</h1>
+    <div class="cake" style="margin-top: 60px;">
+      <div class="candle left" style="background:none; font-size: 32px; color: #ff69b4; font-weight: bold; top: -40px;">2<div class="flame" id="flame-left"></div></div></div>
+      <div class="candle right" style="background:none; font-size: 32px; color: #ff69b4; font-weight: bold; top: -40px;">2<div class="flame" id="flame-right"></div></div></div>
+    </div>
+    <button class="next-btn" id="blow-btn2" onclick="blowCandle2()">吹灭蜡烛</button>
+    <button class="next-btn" id="next-after-candle" style="display: none;" onclick="nextPage()">下一页</button>
+  </div>
+
+  <div class="page" id="page6">
+    <h1>🎁 莫菲的生日抽奖 🎁</h1>
+    <div id="gifts"></div>
+    <div id="spinner" style="display:none;">🎉 抽奖中...</div>
+    <button class="next-btn" onclick="drawGift()">点击抽奖</button>
+  </div>
+
   <script>
     function createFloatingHearts(many = 3) {
       for (let k = 0; k < many; k++) {
@@ -182,9 +214,7 @@
       document.getElementById('flame-right').style.display = 'none';
       document.getElementById('blow-btn2').style.display = 'none';
       document.getElementById('next-after-candle').style.display = 'inline-block';
-      setTimeout(() => {
-        launchFireworks();
-      }, 1000);
+      setTimeout(() => launchFireworks(), 1000);
     }
 
     const gifts = [
@@ -198,7 +228,6 @@
     ];
 
     let drawn = false;
-
     function drawGift() {
       if (drawn) return;
       drawn = true;
@@ -237,7 +266,14 @@
       }
     }
   </script>
-
-  <!-- Pages and UI remain unchanged below -->
+<script>
+  const audio = document.getElementById('birthdayAudio');
+  document.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.volume = 0.6;
+      audio.play();
+    }
+  }, { once: true });
+</script>
 </body>
 </html>
