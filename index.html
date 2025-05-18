@@ -133,18 +133,19 @@
       from { transform: scale(1); }
       to { transform: scale(1.2); }
     }
-    .firework {
+
+    .firework-particle {
       position: absolute;
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: yellow;
-      animation: explode 1s ease-out forwards;
+      animation: particleMove 1s ease-out forwards;
       z-index: 10;
     }
-    @keyframes explode {
-      0% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(4); }
+    @keyframes particleMove {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.5); }
     }
   </style>
 </head>
@@ -217,7 +218,7 @@
       document.getElementById('flame-right').style.display = 'none';
       document.getElementById('blow-btn2').style.display = 'none';
       document.getElementById('next-after-candle').style.display = 'inline-block';
-      setTimeout(() => launchFireworks(), 1000);
+      setTimeout(() => launchFireworks(), 800);
     }
 
     const gifts = [
@@ -258,14 +259,28 @@
     }
 
     function launchFireworks() {
-      for (let i = 0; i < 20; i++) {
-        const firework = document.createElement('div');
-        firework.className = 'firework';
-        firework.style.left = Math.random() * 100 + 'vw';
-        firework.style.top = Math.random() * 100 + 'vh';
-        firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
-        document.body.appendChild(firework);
-        setTimeout(() => firework.remove(), 1000);
+      const explosionCount = 5;
+      for (let i = 0; i < explosionCount; i++) {
+        const centerX = Math.random() * window.innerWidth;
+        const centerY = Math.random() * window.innerHeight;
+
+        for (let j = 0; j < 20; j++) {
+          const angle = Math.random() * 2 * Math.PI;
+          const radius = Math.random() * 80 + 40;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+
+          const particle = document.createElement('div');
+          particle.className = 'firework-particle';
+          particle.style.left = `${centerX}px`;
+          particle.style.top = `${centerY}px`;
+          particle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+          particle.style.setProperty('--x', `${x}px`);
+          particle.style.setProperty('--y', `${y}px`);
+
+          document.body.appendChild(particle);
+          setTimeout(() => particle.remove(), 1000);
+        }
       }
     }
   </script>
