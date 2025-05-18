@@ -113,14 +113,13 @@
       position: relative;
     }
     .candle {
-      width: 8px;
+      width: 30px;
       height: 30px;
-      background: #ff69b4;
       position: absolute;
-      top: -30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .candle.left { left: 35%; }
-    .candle.right { left: 65%; }
     .flame {
       width: 10px;
       height: 10px;
@@ -128,13 +127,11 @@
       border-radius: 50%;
       position: absolute;
       top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
       animation: flicker 0.3s infinite alternate;
     }
     @keyframes flicker {
-      from { transform: translateX(-50%) scale(1); }
-      to { transform: translateX(-50%) scale(1.2); }
+      from { transform: scale(1); }
+      to { transform: scale(1.2); }
     }
     .firework {
       position: absolute;
@@ -161,7 +158,7 @@
 
   <div class="page" id="page3">
     <h1>原来是最最最漂亮美丽可爱、最最最善良的莫菲宝宝生日🎂💖</h1>
-    <button class="next-btn" onclick="nextPage()">继续</button>
+    <button class="next-btn" onclick="nextPage()">下一页</button>
   </div>
 
   <div class="page" id="page4">
@@ -172,8 +169,14 @@
   <div class="page" id="page5">
     <h1>🎂 为莫菲准备的蛋糕 🎂</h1>
     <div class="cake" style="margin-top: 60px;">
-      <div class="candle left" style="background:none; font-size: 32px; color: #ff69b4; font-weight: bold; top: -40px;">2<div class="flame" id="flame-left"></div></div></div>
-      <div class="candle right" style="background:none; font-size: 32px; color: #ff69b4; font-weight: bold; top: -40px;">2<div class="flame" id="flame-right"></div></div></div>
+      <div class="candle" style="left: 30%; top: -40px;">
+        <div style="font-size: 32px; color: #ff69b4; font-weight: bold;">2</div>
+        <div class="flame" id="flame-left"></div>
+      </div>
+      <div class="candle" style="left: 60%; top: -40px;">
+        <div style="font-size: 32px; color: #ff69b4; font-weight: bold;">2</div>
+        <div class="flame" id="flame-right"></div>
+      </div>
     </div>
     <button class="next-btn" id="blow-btn2" onclick="blowCandle2()">吹灭蜡烛</button>
     <button class="next-btn" id="next-after-candle" style="display: none;" onclick="nextPage()">下一页</button>
@@ -266,14 +269,15 @@
       }
     }
   </script>
-<script>
-  const audio = document.getElementById('birthdayAudio');
-  document.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.volume = 0.6;
-      audio.play();
-    }
-  }, { once: true });
-</script>
+
+  <script>
+    const audio = document.getElementById('birthdayAudio');
+    document.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.volume = 0.6;
+        audio.play();
+      }
+    }, { once: true });
+  </script>
 </body>
 </html>
