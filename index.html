@@ -211,13 +211,11 @@
   </script>
 <button onclick="playMusic()" style="position: fixed; bottom: 20px; right: 20px; background: #ff89c0; color: white; border: none; padding: 10px 20px; border-radius: 30px; font-size: 16px; z-index: 10; cursor: pointer;">🎵 播放音乐</button>
 
-<audio id="birthdayMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
+<iframe id="birthdayMusic" width="0" height="0" style="display:none;" src="https://www.youtube.com/embed/AgFeZr5ptV8?autoplay=1&loop=1&playlist=AgFeZr5ptV8" frameborder="0" allow="autoplay"></iframe>
 
 <script>
   function playMusic() {
-    const music = document.getElementById('birthdayMusic');
-    music.volume = 0.6;
-    music.play();
+    document.getElementById('birthdayMusic').src += '&mute=0';
   }
 </script>
 
