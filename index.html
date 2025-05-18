@@ -163,7 +163,7 @@
   </div>
 
   <div class="page" id="page4">
-    <h1>祝你新的一年全部顺利，每一天都被爱包围✨</h1>
+    <h1>祝小宝宝新的一年所有都顺利，每一天都被爱包围✨</h1>
     <button class="next-btn" onclick="nextPage()">吹灭蜡烛</button>
   </div>
 
@@ -259,12 +259,14 @@
     }
 
     function launchFireworks() {
-      const explosionCount = 5;
+      const explosionCount = 15;
+      const particlePerExplosion = 30;
+
       for (let i = 0; i < explosionCount; i++) {
         const centerX = Math.random() * window.innerWidth;
         const centerY = Math.random() * window.innerHeight;
 
-        for (let j = 0; j < 20; j++) {
+        for (let j = 0; j < particlePerExplosion; j++) {
           const angle = Math.random() * 2 * Math.PI;
           const radius = Math.random() * 80 + 40;
           const x = Math.cos(angle) * radius;
@@ -279,7 +281,7 @@
           particle.style.setProperty('--y', `${y}px`);
 
           document.body.appendChild(particle);
-          setTimeout(() => particle.remove(), 1000);
+          setTimeout(() => particle.remove(), 1200);
         }
       }
     }
