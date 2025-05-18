@@ -270,23 +270,17 @@
 
 <button onclick="playMusic()" style="position: fixed; bottom: 20px; right: 20px; background: #ff89c0; color: white; border: none; padding: 10px 20px; border-radius: 30px; font-size: 16px; z-index: 10; cursor: pointer;">🎵 播放音乐</button>
 
-<iframe id="musicFrame" width="0" height="0" style="display:none;" src="https://www.youtube.com/embed/AgFeZr5ptV8?autoplay=0&mute=1&loop=1&playlist=AgFeZr5ptV8" frameborder="0" allow="autoplay"></iframe>
+<video id="birthdayVideo" width="0" height="0" autoplay loop muted>
+  <source src=":) 2025-05-05 16.54.23.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
 <script>
 function playMusic() {
-  const old = document.getElementById('musicFrame');
-  if (old) old.remove();
-
-  const newIframe = document.createElement('iframe');
-  newIframe.id = 'musicFrame';
-  newIframe.width = 0;
-  newIframe.height = 0;
-  newIframe.style.display = 'none';
-  newIframe.src = 'https://www.youtube.com/embed/AgFeZr5ptV8?autoplay=1&mute=0&loop=1&playlist=AgFeZr5ptV8';
-  newIframe.frameBorder = 0;
-  newIframe.allow = 'autoplay';
-
-  document.body.appendChild(newIframe);
+  const video = document.getElementById('birthdayVideo');
+  video.muted = false;
+  video.volume = 0.6;
+  video.play();
 }
 </script>
 
