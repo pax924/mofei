@@ -274,10 +274,19 @@
 
 <script>
 function playMusic() {
-  const iframe = document.getElementById('musicFrame');
-  if (iframe.src.includes('mute=1')) {
-    iframe.src = iframe.src.replace('mute=1', 'mute=0');
-  }
+  const old = document.getElementById('musicFrame');
+  if (old) old.remove();
+
+  const newIframe = document.createElement('iframe');
+  newIframe.id = 'musicFrame';
+  newIframe.width = 0;
+  newIframe.height = 0;
+  newIframe.style.display = 'none';
+  newIframe.src = 'https://www.youtube.com/embed/AgFeZr5ptV8?autoplay=1&mute=0&loop=1&playlist=AgFeZr5ptV8';
+  newIframe.frameBorder = 0;
+  newIframe.allow = 'autoplay';
+
+  document.body.appendChild(newIframe);
 }
 </script>
 
