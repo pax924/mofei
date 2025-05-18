@@ -1,18 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>生日快乐，莫菲宝宝</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      background-color: #ffeef2;
+      background: linear-gradient(270deg, #ffd1dc, #ffe4e1, #fbc2eb, #fcd5ce);
+      background-size: 800% 800%;
+      animation: bgAnim 20s ease infinite;
       color: #333;
       text-align: center;
       overflow: hidden;
+    }
+    @keyframes bgAnim {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     .page {
       display: none;
@@ -21,14 +27,25 @@
       align-items: center;
       flex-direction: column;
       padding: 2rem;
+      opacity: 0;
+      animation: fadeOut 1s ease forwards;
+      position: relative;
     }
     .page.active {
       display: flex;
+      animation: fadeIn 1s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
     }
     h1 {
       font-size: 2.2rem;
       margin-bottom: 1rem;
-      animation: fadeIn 2s ease-in-out;
     }
     .next-btn {
       margin-top: 2rem;
@@ -41,13 +58,7 @@
       font-size: 1rem;
       transition: background-color 0.3s;
     }
-    .next-btn:hover {
-      background-color: #f95fa3;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .next-btn:hover { background-color: #f95fa3; }
     .gift-box {
       font-size: 1.3rem;
       margin: 0.5rem;
@@ -56,9 +67,78 @@
       font-weight: bold;
       color: #ff4f81;
     }
+    .spinner {
+      border: 5px solid #ffe4f0;
+      border-top: 5px solid #ff69b4;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 1rem auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: float 6s ease-in forwards;
+      opacity: 0.6;
+      z-index: 0;
+    }
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+    @keyframes float {
+      0% { transform: translateY(0) rotate(45deg); opacity: 0.6; }
+      100% { transform: translateY(-100vh) rotate(45deg); opacity: 0; }
+    }
+    .plane {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/4/42/Airplane_silhouette.svg') no-repeat center;
+      background-size: contain;
+      top: 70%;
+      left: -80px;
+      animation: fly 5s ease-in-out forwards;
+      z-index: 2;
+    }
+    @keyframes fly {
+      0% { left: -80px; transform: scale(0.5) rotate(-10deg); }
+      100% { left: 120%; transform: scale(1.2) rotate(5deg); }
+    }
   </style>
 </head>
 <body>
+  <iframe width="0" height="0" src="https://www.youtube.com/embed/AgFeZr5ptV8?autoplay=1&mute=1&loop=1&playlist=AgFeZr5ptV8" frameborder="0"></iframe>
+
+  <script>
+    function createFloatingHearts(many = 3) {
+      for (let k = 0; k < many; k++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.bottom = '-20px';
+        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+    }
+    setInterval(() => createFloatingHearts(5), 800);
+  </script>
+
   <div class="page active" id="page1">
     <h1>是谁今天过生日呢？🎉</h1>
     <button class="next-btn" onclick="nextPage()">下一页</button>
@@ -76,6 +156,7 @@
 
   <div class="page" id="page4">
     <h1>🎁 莫菲的生日抽奖 🎁</h1>
+    <div class="spinner" id="spinner" style="display:none;"></div>
     <div id="gifts"></div>
     <button class="next-btn" onclick="drawGift()">点击抽奖</button>
   </div>
@@ -105,11 +186,27 @@
     function drawGift() {
       if (drawn) return;
       drawn = true;
+
       const giftDiv = document.getElementById('gifts');
-      giftDiv.innerHTML = '<p class="gift-box">命运旋转中...</p>';
+      const spinner = document.getElementById('spinner');
+      giftDiv.innerHTML = "";
+      spinner.style.display = "block";
+
+      let i = 0;
+      const interval = setInterval(() => {
+        giftDiv.innerHTML = `<p class="gift-box">🎁 ${gifts[i % gifts.length]}</p>`;
+        i++;
+      }, 300);
+
       setTimeout(() => {
+        clearInterval(interval);
+        spinner.style.display = "none";
         giftDiv.innerHTML = `<p class="gift-box highlight">🎉 你抽中了：${gifts[gifts.length - 1]}</p>`;
-      }, 2000);
+
+        const plane = document.createElement('div');
+        plane.className = 'plane';
+        document.body.appendChild(plane);
+      }, 3000);
     }
   </script>
 </body>
