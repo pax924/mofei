@@ -249,7 +249,7 @@
   </div>
 
   <div class="page" id="page4">
-    <h1>祝最最最爱的宝宝新的一年万事顺利，每一天都被爱包围！🌟✨</h1>
+    <h1>祝你新的一年全部顺利，每一天都被爱包围！🌟✨</h1>
     <div class="cake" style="margin-top: 80px;">
       <div class="candle" style="top: -40px; width: 60px; height: 40px; background: none; font-size: 32px; color: #ff69b4; font-weight: bold; left: 50%; transform: translateX(-50%);">
   22
@@ -267,6 +267,19 @@
     <div id="gifts"></div>
     <button class="next-btn" onclick="drawGift()">点击抽奖</button>
   </div>
+
+<button onclick="playMusic()" style="position: fixed; bottom: 20px; right: 20px; background: #ff89c0; color: white; border: none; padding: 10px 20px; border-radius: 30px; font-size: 16px; z-index: 10; cursor: pointer;">🎵 播放音乐</button>
+
+<iframe id="musicFrame" width="0" height="0" style="display:none;" src="https://www.youtube.com/embed/AgFeZr5ptV8?autoplay=0&mute=1&loop=1&playlist=AgFeZr5ptV8" frameborder="0" allow="autoplay"></iframe>
+
+<script>
+function playMusic() {
+  const iframe = document.getElementById('musicFrame');
+  if (iframe.src.includes('mute=1')) {
+    iframe.src = iframe.src.replace('mute=1', 'mute=0');
+  }
+}
+</script>
 
 </body>
 </html>
